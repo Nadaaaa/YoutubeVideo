@@ -1,21 +1,9 @@
 package com.example.xdev.youtubevideo;
 
-import android.app.Application;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Toast;
-
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.google.android.youtube.player.YouTubePlayerView;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,13 +15,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //new fragment replacement
+        Fragment fragment;
+        try {
+            fragment = youtubeFragment.class.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.youtubeFragment, fragment).commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        youtubeFragment youtubeFragment1 = new youtubeFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.youtubeFragment, youtubeFragment.newInstance())
-                .commit();
 
         /*Retrofit.getService(BASE_URL).getURL(video_id, "default", "US", "en", "", "info").enqueue(new Callback<String>() {
             @Override

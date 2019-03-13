@@ -1,21 +1,18 @@
 package com.example.xdev.youtubevideo;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.google.android.youtube.player.YouTubePlayerView;
 
 
-public class youtubeFragment extends YouTubePlayerSupportFragment {
+public class youtubeFragment extends Fragment {
 
     private static String API_KEY = "AIzaSyB36qhAvxNDI07l54DP4OHoAJBEwC8cVKs";
 
@@ -23,23 +20,23 @@ public class youtubeFragment extends YouTubePlayerSupportFragment {
         // Required empty public constructor
     }
 
-    public static youtubeFragment newInstance()
-    {
-        youtubeFragment playerYouTubeFrag = new youtubeFragment();
-
-        playerYouTubeFrag.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
-            }
-        });
-        return playerYouTubeFrag;
-    }
+//    public static youtubeFragment newInstance()
+//    {
+//        youtubeFragment playerYouTubeFrag = new youtubeFragment();
+//
+//        playerYouTubeFrag.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
+//            @Override
+//            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+//
+//            }
+//
+//            @Override
+//            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+//
+//            }
+//        });
+//        return playerYouTubeFrag;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,9 +46,12 @@ public class youtubeFragment extends YouTubePlayerSupportFragment {
 
         final String video_id = "RlF8fTQSWcs";
 
-        YouTubePlayerView youTubePlayerView = rootView.findViewById(R.id.playerView);
 
-        youTubePlayerView.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
+        YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.playerView, youTubePlayerFragment).commit();
+
+        youTubePlayerFragment.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 youTubePlayer.loadVideo(video_id);
